@@ -102,7 +102,7 @@ Docker != VM
 The data will be persistent and can be accessed from a third container, even when the first one is gone. However, data is gone when all containers using is are gone
 
 ## Dockerfile
-  - A small "program" to create an image
+  - A small "program" to create an image // A portable image
   `docker build -t <image_name> .`
     -t = tag
     . = place for the dockerfile
@@ -161,3 +161,8 @@ The data will be persistent and can be accessed from a third container, even whe
 
 ##Multi-Stage builds
   - in the example @ ./multi-state, we create a image from Ubuntu, but we don't need all the functionalities. So, later, we copy what we need from builder to the new image, then run what we need
+
+## App Hierarchy
+  - stack (interactions of all the services)
+  - Services (define how containers behave in production)
+  - Containers
