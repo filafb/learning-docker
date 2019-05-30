@@ -166,3 +166,24 @@ The data will be persistent and can be accessed from a third container, even whe
   - stack (interactions of all the services)
   - Services (define how containers behave in production)
   - Containers
+
+### Created a python app on ./docker-docs
+  To build the image, based on Dockerfile:
+  - `docker build --tag=friendlyhello . `
+  To run to image (create a container):
+  - `docker run -p 4000:80 friendlyhello`
+    - To run the app in the background: `-d`
+  - Visit localhost:4000
+  - To stop it:
+  - `docker stop <container_id>`
+
+## Share your image
+  - Registry: a collection of repositories
+  - Repository: collection of images
+
+  * Tag the image
+  `docker tag <image_name> <username/repository:tag>`
+  * Publish the image
+  `docker push <username/repository:tag>`
+  * Run the image from the remote repository. If the image isn't available locally, Docker pulls it
+  `docker run -p 4000:80 <username/repository:tag>`
