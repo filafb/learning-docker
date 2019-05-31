@@ -187,3 +187,41 @@ The data will be persistent and can be accessed from a third container, even whe
   `docker push <username/repository:tag>`
   * Run the image from the remote repository. If the image isn't available locally, Docker pulls it
   `docker run -p 4000:80 <username/repository:tag>`
+
+  - *Services* -> Different pieces of the app
+    `docker-compose.yml`-> Easy way to define, run and scale services
+  While typing docker run is simple enough, the true implementation of a container in production is running it as a service.
+
+  Inside the docker-compose file, we are defining:
+    - Image to be pulled;
+    - Number of instances and a few params;
+    - Condition to restart;
+    - Map port on the hosto to the web;
+    - Instruct web's containers to share port 80 via a load-balanced network called webnet;
+    - Define the webnet network with the default settings;
+
+  * Running the new load-balanced app
+  It's necessary to initiate a swarm:
+    `docker swarm init`
+  To run it:
+   `docker stack deploy -c docker-compose.yml <app_name>`
+  Now, visiting localhost:4000, we can se the app up and running
+  * To see a list of services running:
+    `docker service ls`
+  * Alternativaly,
+    `docker stack services <stack_name>`
+  A single container running in a serice is called a task. To list all tasks for your service:
+    `docker service ps <web_service_name>`
+    _you can see the web service name running docker stack services
+  It's also possible to see all the containers running, associated to this service:
+    `docker container ls -q`
+  To view all tasks of a stack:
+    - `docker stack ps <stack_name>`
+
+##Scalling the app
+  - To scale the app, just change the replicas in `docker-compose.yml` and run the docker stack deploy command again
+
+    - To take down the app:
+    `docker stack rm <stack_name>`
+    - To take down the swarm:
+    `docker swarm leave --force`
