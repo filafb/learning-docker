@@ -1,4 +1,4 @@
-#Learning Docker => https://www.linkedin.com/learning/learning-docker-2/run-processes-in-containers
+# Learning Docker => https://www.linkedin.com/learning/learning-docker-2/run-processes-in-containers
 
 Docker != VM
 
@@ -117,7 +117,7 @@ The data will be persistent and can be accessed from a third container, even whe
 
 *Documentation:* https://docs.docker.com/
 
-###Docker Statements
+### Docker Statements
   - *FROM*
     - Which image to download and start from
     - Must be the first command
@@ -159,7 +159,7 @@ The data will be persistent and can be accessed from a third container, even whe
   - *USER*
     - Sets which user the container will run as
 
-##Multi-Stage builds
+## Multi-Stage builds
   - in the example @ ./multi-state, we create a image from Ubuntu, but we don't need all the functionalities. So, later, we copy what we need from builder to the new image, then run what we need
 
 ## App Hierarchy
@@ -218,10 +218,51 @@ The data will be persistent and can be accessed from a third container, even whe
   To view all tasks of a stack:
     - `docker stack ps <stack_name>`
 
-##Scalling the app
+## Scalling the app
   - To scale the app, just change the replicas in `docker-compose.yml` and run the docker stack deploy command again
 
     - To take down the app:
     `docker stack rm <stack_name>`
     - To take down the swarm:
     `docker swarm leave --force`
+
+## Swarm Clusters
+  - *Swarm:*
+    - A group of machines that are running Docker and joined into a cluster.
+  - Swarm Manager => The machine that started the swarm
+    `docker swarm init`
+  - Workers => Machines that joined the swarm
+    `docker swarm join`
+
+  * Creating a cluster
+    Create VMs, suing Oracle VirtualBox
+      - `docker-machine create --driver viratualbox <vm_name>`
+    To see VMs created:
+      `docker-machine ls`
+    To send commands to VM:
+      `docker-machine ssh`
+      eg:
+      `docker-machine ssh myvm1 "docker swarm init --advertise-addr <myvm1 ip>"`
+    * Always run the command with port 2377 or no port at all. Port 2376 is the Docker deamon port. Using this one may cause errors
+
+    The command above returns an command to help adding other machine to the cluster. Run it using docker-machine ssh
+
+    To see all nodes, run `docker node ls`, eg:
+    `docker-machine ssh myvm1 "docker node ls"`
+
+    To avoid wrapping Docker commands in `docker-machine ssh` we can configure a shell to the swarm manager:
+      `docker-machine env <vm_name>`
+
+  * Deploy the app on the swarm
+    - We can use the `docker stack deploy`, since we set the shell for this cluster
+
+  * Removing the swarm:
+   `docker-machine ssh <vm_name> "docker swarm leave"`
+   `--force` if it's the manager
+
+  * Unset the docker-machine environment variable:
+    `eval $(docker-machine env -u)`
+
+  * Stop and delete VMs
+    Stop all: `docker-machine stop $(docker-machine ls -q)`
+    Delete all VMs: `docker-machine rm $(docker-machine ls -q)`
