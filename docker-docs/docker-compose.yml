@@ -11,8 +11,38 @@ services:
       restart_policy:
         condition: on-failure
     ports:
-      - "4000:80"
+      - "80:80"
     networks:
       - webnet
+  # visualizer added on Part5, stacks.
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    #volumes: Gives the visualizer access to the host's socket file for docker
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      # placement ensures that this service only ever runs on a swarm manager -- never a worker
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+  # adding redis, part5
+  redis:
+      image: redis
+      # port 6379 has been pre-configured by Redis to be exposed from the container to the host. Here, we expose it from the host to the world
+      ports:
+          - "6379:6379"
+      #through volumes, redis accesses an arbitrary directory in the host's file system as /data, which is where redis stores data // remember syntax for persistent data shared: <absolute_path>:/<yourfoldername>
+      volumes:
+        - "/home/docker/data:/data"
+      # contraints ensures it runs on the manager. Combined with volumes command, creates a source of truth
+      deploy:
+        placement:
+          constraints: [node.role == manager]
+      command: redis-server --appendonly yes
+      networks:
+        - webnet
 networks:
   webnet:

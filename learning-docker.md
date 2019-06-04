@@ -228,7 +228,7 @@ The data will be persistent and can be accessed from a third container, even whe
 
 ## Swarm Clusters
   - *Swarm:*
-    - A group of machines that are running Docker and joined into a cluster.
+    - A cluster of machines running Docker, and deployed an application to it, with containers running in concert on multiple machines.
   - Swarm Manager => The machine that started the swarm
     `docker swarm init`
   - Workers => Machines that joined the swarm
@@ -245,7 +245,7 @@ The data will be persistent and can be accessed from a third container, even whe
       `docker-machine ssh myvm1 "docker swarm init --advertise-addr <myvm1 ip>"`
     * Always run the command with port 2377 or no port at all. Port 2376 is the Docker deamon port. Using this one may cause errors
 
-    The command above returns an command to help adding other machine to the cluster. Run it using docker-machine ssh
+    The command above returns a command to help adding other machine to the cluster. Run it using docker-machine ssh
 
     To see all nodes, run `docker node ls`, eg:
     `docker-machine ssh myvm1 "docker node ls"`
@@ -265,4 +265,10 @@ The data will be persistent and can be accessed from a third container, even whe
 
   * Stop and delete VMs
     Stop all: `docker-machine stop $(docker-machine ls -q)`
-    Delete all VMs: `docker-machine rm $(docker-machine ls -q)`
+  * Delete all VMs: `docker-machine rm $(docker-machine ls -q)`
+
+  * Start a VM:
+  `docker-machine start <vm_name>`
+
+## Stack
+  - A group of interrelated services that share dependencies, and can be orchestrated and scaled together.
