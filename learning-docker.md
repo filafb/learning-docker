@@ -272,3 +272,6 @@ The data will be persistent and can be accessed from a third container, even whe
 
 ## Stack
   - A group of interrelated services that share dependencies, and can be orchestrated and scaled together.
+
+Debugging Node.js app in Docker:
+https://www.youtube.com/watch?v=vE1iDPx6-Ok&feature=youtu.be&list=PLkA60AVN3hh9gnrYwNO6zTb9U3i1Y9FMY&t=2088
