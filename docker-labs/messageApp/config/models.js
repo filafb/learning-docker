@@ -52,7 +52,7 @@ module.exports.models = {
   * > https://sailsjs.com/docs/concepts/orm/model-settings#?migrate          *
   *                                                                          *
   ***************************************************************************/
-  conection: 'mongo',
+  //connection: 'mongo',
   migrate: 'safe',
 
 

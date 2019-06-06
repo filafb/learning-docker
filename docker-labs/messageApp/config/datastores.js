@@ -49,9 +49,11 @@ module.exports.datastores = {
     *                                                                          *
     ***************************************************************************/
     adapter: 'sails-mongo',
-    url: 'mongodb://root@localhost/messageApp',
+    url: process.env.MONGO_URL || 'mongodb://localhost/messageApp',
 
   },
 
 
 };
+
+console.log(process.env.MONGO_URL)
